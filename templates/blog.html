@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blog Post</title>
+</head>
+<body>
+	<div id="blog_id">
+		<form id="blogid" action="" method="POST">
+		  {{ form.as_p }}
+		  <input type="submit" id="submit" value="Save">
+		</form>
+	</div>
+    <h1>Blogs</h1>
+	  {% for b in bloglist %}
+	<div class="blog_details">
+		<h4>Title: {{ b.title }}</h4>
+		<h4>Author: {{ b.author }}</h4>
+		<h4>Category: {{ b.category }}</h4>
+		<h4>Description: {{ b.description }}</h4>
+		<a><input type="button" class="update" value="Update"></a>
+		<a href="/blog/{{b.id}}/delete/"><input type="button" class="delete" value="Delete"></a>
+    </div>
+	  {% endfor %}
+</body>
+</html>

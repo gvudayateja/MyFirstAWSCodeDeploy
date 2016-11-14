@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('{% static 'img/post-bg.jpg' %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ bloglist.title }}</h1>
+                        <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+                        <span class="meta">Posted by <a href="#">{{ bloglist.author }}</a> on {{ bloglist.posted }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <p>{{ bloglist.description }}</p>
+
+                    <p></p>
+
+                    <p></p>
+
+                    <p></p>
+
+                    <p></p>
+
+                    <h2 class="section-heading">The Final Frontier</h2>
+
+                    <p></p>
+
+                    <p></p>
+
+                    <blockquote></blockquote>
+
+                    <p></p>
+
+                    <h2 class="section-heading">Reaching for the Stars</h2>
+
+                    <p></p>
+
+                    <a href="#">
+                        <img class="img-responsive" src="img/post-sample-image.jpg" alt="">
+                    </a>
+                    <span class="caption text-muted"></span>
+
+                    <p></p>
+
+                    <p></p>
+
+                    <p>Placeholder text by <a href="http://spaceipsum.com/">Space Ipsum</a>. Photographs by <a href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>.</p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blog Post</title>
+</head>
+<body>
+	<div id="auth_id">
+		<form id="authid" action="" method="POST">
+		  {{ form.as_p }}
+		  <input type="submit" id="submit" value="Save">
+		</form>
+	</div>
+    <h1>Authors</h1>
+	  {% for a in authlist %}
+	<div class="blog_details">
+		<h4>FirstName: {{ a.firstname }}</h4>
+		<h4>LastName: {{ a.lastname }}</h4>
+		<h4>Contact Details:</h4>
+		    <h4>Mobile: {{ a.contact }}</h4>
+		    <h4>Email: {{ a.email }}</h4>
+		<h4>Experience: {{ a.exp }}</h4>
+		<a><input type="button" class="update" value="Update"></a>
+		<a href="/author/{{a.id}}/delete/"><input type="button" class="delete" value="Delete"></a>
+    </div>
+	  {% endfor %}
+</body>
+</html>

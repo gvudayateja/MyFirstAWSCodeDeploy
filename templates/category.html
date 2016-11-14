@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blog Post</title>
+</head>
+<body>
+	<div id="cat_id">
+		<form id="catid" action="" method="POST">
+		  {{ form.as_p }}
+		  <input type="submit" id="submit" value="Save">
+		</form>
+	</div>
+    <h1>Category</h1>
+	  {% for c in catlist %}
+	<div class="blog_details">
+		<h4>Category Name: {{ c.name }}</h4>
+		<h4>Description: {{ c.desc }}</h4>
+		<a><input type="button" class="update" value="Update"></a>
+		<a href="/category/{{c.id}}/delete/"><input type="button" class="delete" value="Delete"></a>
+    </div>
+	  {% endfor %}
+</body>
+</html>
