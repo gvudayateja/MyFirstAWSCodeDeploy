@@ -15,19 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from blog.views import *
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from blog.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', auth_views.login, name='login'),
-    url(r'^logout/$', acc_logout, name='logout'),
-    url(r'^home/$', index, name='index'),
+    url(r'^$', auth_views.login, {'authentication_form': AuthenticationForm}),
+    url(r'^logout/$', logout, name='logout'),
+    url(r'^register/', register, name='register'),
+    url(r'^home/$', home, name='home'),
     url(r'^about/$', about, name='about'),
     url(r'^post/(?P<pid>\d*)/$', post, name='post'),
     url(r'^contact/$', contact, name='contact'),
+    url(r'^new/$', new, name='new'),
     url(r'^blog/$', blog, name='blog'),
     url(r'^blog/(?P<bid>\d*)/delete/$', blog_remove, name="blog_remove"),
     url(r'^author/$', author, name='author'),

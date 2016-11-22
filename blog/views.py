@@ -1,38 +1,102 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from .models import *
-from .forms import *
-from django.contrib.auth import logout
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth import logout as acc_logout
 from django.contrib.auth.decorators import login_required
+from blog.forms import *
+from blog.models import *
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 
 
+User = get_user_model()
+
+
+@csrf_exempt
+def register(request):
+    userform = UserForm()
+    if request.method == 'POST':
+        userform = UserForm(request.POST)
+        if userform.is_valid():
+            user = User.objects.create_user(
+                username=userform.cleaned_data['username'],
+                password=userform.cleaned_data['password'],
+            )
+            user.save()
+            return HttpResponseRedirect('/')
+        else:
+            return render(request, 'registration/register.html', {'form': userform, 'form_errors': userform.errors})
+    else:
+        return render(request, 'registration/register.html', {'form': userform})
+
+
 @login_required(login_url="/")
-def acc_logout(request):
-    logout(request)
+def logout(request):
+    acc_logout(request)
     return HttpResponseRedirect('/')
 
 
-def index(request):
+@login_required(login_url="/")
+def home(request):
     bloglist = Blog.objects.all()
     return render(request, 'index.html', {'bloglist': bloglist})
 
 
+@login_required(login_url="/")
 def about(request):
     return render(request, 'about.html')
 
 
+@login_required(login_url="/")
+def new(request):
+    return render(request, 'new.html')
+
+
+@login_required(login_url="/")
+@csrf_exempt
 def contact(request):
-    return render(request, 'contact.html')
+    contactform = ContactForm()
+    if request.method == 'POST':
+        print "Hellooooooo"
+        contactform = ContactForm(request.POST, request.FILES)
+        if contactform.is_valid():
+            print "Heyyyyy"
+            contact_form = contactform.save(commit=False)
+            contact_form.save()
+            file = request.FILES.get('file')
+            pic = request.FILES.get('pic')
+            subject = 'Thanks for your Interest. We Will Get Back to You Soon'
+            message = contact_form.message
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [contact_form.email]
+            print contact_form.email
+
+            mail = EmailMultiAlternatives(subject, message, from_email, to_list)
+            if pic:
+                mail.attach(pic.name, pic.read(), 'image/jpeg')
+            if file:
+                mail.attach(file.name, file.read(), file.content_type)
+            mail.send()
+
+            messages.success(request, 'Thank You. We will Get Back')
+            return render(request, 'contact.html', {'success': 'success'})
+        else:
+            print contactform.errors
+            return render(request, 'contact.html', {'contactform': contactform})
+    else:
+        return render(request, 'contact.html', {'contactform': contactform})
 
 
+@login_required(login_url="/")
 def post(request, pid):
     bloglist = Blog.objects.get(id=pid)
     return render(request, 'post.html', {'bloglist': bloglist})
 
 
+@login_required(login_url="/")
 @csrf_exempt
 def blog(request):
     blogform = BlogForm()
@@ -44,17 +108,19 @@ def blog(request):
             blogform.save()
             return HttpResponseRedirect('/blog/')
         else:
-            return render(request, 'blog.html', {'form': blogform, 'authorform': authorlist, 'catform': catlist, 'blog_error': blogform_errors})
+            return render(request, 'blog.html', {'form': blogform, 'authorform': authorlist, 'catform': catlist, 'blog_error': blogform.errors})
     else:
         bloglist = Blog.objects.all()
         return render(request, 'blog.html', {'form': blogform, 'authorform': authorlist, 'catform': catlist, 'bloglist': bloglist})
 
 
+@login_required(login_url="/")
 def blog_remove(request, bid):
     Blog.objects.filter(id=bid).delete()
     return HttpResponseRedirect('/blog/')
 
 
+@login_required(login_url="/")
 @csrf_exempt
 def author(request):
     authform = AuthorForm()
@@ -70,11 +136,13 @@ def author(request):
         return render(request, 'author.html', {'form': authform, 'authlist': authlist})
 
 
+@login_required(login_url="/")
 def author_remove(request, aid):
     Author.objects.filter(id=aid).delete()
     return HttpResponseRedirect('/author/')
 
 
+@login_required(login_url="/")
 @csrf_exempt
 def category(request):
     catform = CategoryForm
@@ -90,27 +158,7 @@ def category(request):
         return render(request, 'category.html', {'form': catform, 'catlist': catlist})
 
 
+@login_required(login_url="/")
 def category_remove(request, cid):
     Category.objects.filter(id=cid).delete()
     return HttpResponseRedirect('/category/')
-
-
-# @csrf_exempt
-# def bloglist(request):
-#   bloglist = Blog.objects.all()
-#   return render(request, 'blog.html', {'bloglist': bloglist})
-
-
-# def execution(request):
-#     Blog.objects.all()
-#     Blog.objects.create(title="First", author=Author.objects.filter(exp='PROFESSIONAL',
-#         firstname="MicroPyr", lastname="Info"
-#         ), category=Category.objects.create(
-#         name="Beverages", desc="This is the Place where we get posts on Beverages"
-#         ),
-#         description="My First Post has been Posted")
-#     Author.objects.filter(firstname="MicroPyr").update(firstname="Micropyramid")
-#     Category.objects.get(id=8).update(name="Foodies Blog")
-#     Blog.objects.filter(title="First Post").update(title="My First Post")
-#     Blog.objects.filter(id=8).delete()
-#     print "Post has been Created"

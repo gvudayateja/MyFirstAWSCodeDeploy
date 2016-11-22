@@ -1,5 +1,5 @@
 from django import forms
-from .models import Blog, Author, Category
+from blog.models import *
 
 
 class AuthorForm(forms.ModelForm):
@@ -64,6 +64,54 @@ class BlogForm(forms.ModelForm):
         model = Blog
         fields = '__all__'
 
-    # def __init__(self, **kwargs):
-    #     super(BlogForm, self).__init__(**kwargs)
-    #     self.fields['author'].queryset = Author.objects.filter(exp='PROFESSIONAL')
+
+class ContactForm(forms.ModelForm):
+
+    class Meta:
+        model = Contact
+        fields = '__all__'
+
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    re_password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email', 'mobile', 'password', 'pin')
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        print username
+        user_name = User.objects.filter(username__iexact=username).exclude(id=self.instance.id)
+        print user_name
+        if user_name:
+            raise forms.ValidationError('Username Already Registered, Enter Another Username')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        reg_email = User.objects.filter(email__iexact=email).exclude(id=self.instance.id)
+        if reg_email:
+            raise forms.ValidationError('Email Already Exists, Enter Another Email Id')
+        return email
+
+    def clean_mobile(self):
+        mobile = self.cleaned_data['mobile']
+        try:
+            int(mobile)
+        except:
+            raise forms.ValidationError('Mobile Number must be in Integers')
+        num_length = str(int(mobile))
+        if len(num_length) != 10:
+            raise forms.ValidationError('Mobile number must be 10 Digits')
+        return mobile
+
+    def clean_pin(self):
+        pin = self.cleaned_data['pin']
+        if pin != '1234':
+            raise forms.ValidationError('Invalid Pin')
+        return pin

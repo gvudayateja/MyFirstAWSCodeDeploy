@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+# for gmail or google apps
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'gvudayateja93@gmail.com'
+EMAIL_HOST_PASSWORD = 'itsmyturnnw'
+EMAIL_PORT = 587
+
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,6 +65,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'BlogPost.urls'
 
 LOGIN_REDIRECT_URL = '/home/'
+
+AUTH_USER_MODEL = 'mspp.User'
 
 TEMPLATES = [
     {

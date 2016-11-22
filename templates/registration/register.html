@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Micro Blog</title>
+  <!-- CORE CSS-->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+
+  <style type="text/css">
+  html,
+  body {
+      height: 100%;
+  }
+  html {
+      display: table;
+      margin: auto;
+  }
+  body {
+      display: table-cell;
+      vertical-align: middle;
+  }
+  .margin {
+    margin: 0 !important;
+  }
+  .text_details {
+    color: purple;
+    font-family: 'Courier New', monospace;
+    font-size: 20px
+  }
+  </style>
+
+</head>
+
+<body class="blue">
+
+
+  <div id="login-page" class="row">
+    <div class="col s12 z-depth-6 card-panel">
+      <form class="signup-form" method="POST" action="">{% csrf_token %}
+        <div class="row">
+          <div class="input-field col s12 center">
+            <!-- <img src="http://www.inter-fear.com/images/logo.png" alt="" class="responsive-img valign profile-image-login"> -->
+            <p class="center login-form-text text_details">REGISTER</p>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s6">
+            <i class="mdi-social-person-outline prefix"></i>
+            <input id="first_name" type="text" class="validate" name="first_name" value="{{request.POST.first_name}}">
+            <label class="center-align">FirstName</label>
+            {{ form.first_name.errors }}
+          </div>
+          <div class="input-field col s6">
+            <i class="mdi-social-person-outline prefix"></i>
+            <input id="last_name" type="text" class="validate" name="last_name" value="{{request.POST.last_name}}">
+            <label class="center-align">LastName</label>
+            {{ form.last_name.errors }}
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s6">
+            <i class="mdi-social-person-outline prefix"></i>
+            <input id="username" type="text" class="validate" name="username" value="{{request.POST.username}}">
+            <label class="center-align">Username</label>
+            {{ form.username.errors }}
+          </div>
+          <div class="input-field col s6">
+            <i class="mdi-communication-phone prefix"></i>
+            <input id="mobile" type="text" class="validate" name="mobile" value="{{request.POST.mobile}}">
+            <label class="center-align">Mobile</label>
+            {{ form.mobile.errors }}
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s8">
+            <i class="mdi-communication-email prefix"></i>
+            <input id="email" type="email" class="validate" name="email" value="{{request.POST.email}}">
+            <label class="center-align">Email</label>
+            {{ form.emailid.errors }}
+          </div>
+          <div class="input-field col s4">
+            <i class="mdi-hardware-security prefix"></i>
+            <input id="pin" type="text" class="validate" name="pin" value="{{request.POST.pin}}">
+            <label class="center-align">PIN</label>
+            {{ form.pin.errors }}
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s6">
+            <i class="mdi-action-lock-outline prefix"></i>
+            <input id="password" type="password" class="validate" name="password">
+            <label>Password</label>
+            {{ form.password.errors }}
+          </div>
+          <div class="input-field col s6">
+            <i class="mdi-action-lock-outline prefix"></i>
+            <input id="re_password" type="password" name="re_password">
+            <label>Re-type password</label>
+            {{ form.re_password.errors }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <button type="submit" class="btn waves-effect waves-light col s12" style="background-color:#4d004d">Register</button>
+          </div>
+          <div class="input-field col s12">
+            <p class="margin center medium-small sign-up">Already have an account? <a href="/">Login</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!--materialize js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+</body>
+
+</html>

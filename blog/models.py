@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils import timezone
 
@@ -41,3 +41,22 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=64)
+    email = models.EmailField()
+    phone = models.CharField(max_length=13)
+    message = models.CharField(max_length=255)
+    file = models.FileField("File", upload_to='files/', default='', blank=True)
+    pic = models.ImageField("Image", upload_to='images/', default='', blank=True)
+
+
+class User(AbstractUser):
+    mobile = models.CharField(max_length=10)
+    pin = models.CharField(max_length=4)
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.username

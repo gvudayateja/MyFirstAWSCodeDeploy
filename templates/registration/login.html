@@ -1,52 +1,79 @@
 {% load staticfiles %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="icon" type="image/png" href="images/favicon.ico">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BLOG</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link type="text/css" href="{% static 'css/main.css' %}" rel="stylesheet">
+    <title>Micro Blog</title>
+    <link type="text/css" href="{% static 'css/login.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+    <style type="text/css">
+      html,
+      body {
+          height: 100%;
+      }
+      html {
+          display: table;
+          margin: auto;
+      }
+      body {
+          display: table-cell;
+          vertical-align: middle;
+      }
+      .margin {
+        margin: 0 !important;
+      }
+      .text_details {
+        color: purple;
+        font-family: 'Courier New', monospace;
+        font-size: 20px
+      }
+    </style>
   </head>
   <body>
-    <div id="wrapper" >
-      <!-- main_background starts here -->
-      <div class="row marl">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="wrap">
-                        <p class="form-title">Sign In</p>
-                        <form id="login_form" action="" method="post">
-                                {% csrf_token %}
-                            <div class="form-group">
-                              <input type="text" id="email" name="username" class="form-control" placeholder="Email">
-                              {{ form.username.errors }}
-                            </div>
-                            <div class="form-group">
-                              <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-                              {{ form.password.errors }}
-                            </div>
-                              {% if not form.username.errors and not form.password.errors and form.errors %}
-                              <p class="login_error">Username and Password Did Not Match</p>
-                              {% endif %}
-                              <button class="btn btn-default" type="submit">Login Here</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <div id="login-page" class="row">
+    <div class="col s12 z-depth-6 card-panel">
+      <form class="login_form" method="POST" action="">{% csrf_token %}
+        <div class="row">
+          <div class="input-field col s12 center">
+            <!-- <img src="http://w3lessons.info/logo.png" alt="" class="responsive-img valign profile-image-login"> -->
+            <p class="center login-form-text text_details">LOGIN</p>
+          </div>
         </div>
-      </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-social-person-outline prefix"></i>
+            <input class="validate" id="username" type="text" name="username">
+            <label style="color:#4d004d">Username</label>
+            {{ form.username.errors }}
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-lock-outline prefix"></i>
+            <input id="password" type="password" name="password">
+            <label style="color:#4d004d">Password</label>
+            {{ form.password.errors }}
+          </div>
+        </div>
+          {% if not form.username.errors and not form.password.errors and form.errors %}
+            <p class="login_error">Username and Password Did Not Match</p>
+          {% endif %}
+        <div class="row">
+          <div class="input-field col s12">
+            <button type="submit" class="btn waves-effect waves-light col s12" style="background-color:#4d004d">Login</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <p class="margin medium-small" style="text-align:center;">New Here!?  <a href="/register/" style="color:#4d004d">Register Now!</a></p>
+          </div>
+        </div>
+      </form>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  </body>
+  </div>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!--materialize js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+</body>
 </html>
+{% endblock %}
