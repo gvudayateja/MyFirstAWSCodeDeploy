@@ -23,12 +23,14 @@ from blog.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', auth_views.login, {'authentication_form': AuthenticationForm}),
+    url(r'^login/$', auth_views.login, {'authentication_form': AuthenticationForm}),
     url(r'^logout/$', logout, name='logout'),
     url(r'^register/', register, name='register'),
-    url(r'^home/$', home, name='home'),
+    url(r'^$', home, name='home'),
     url(r'^about/$', about, name='about'),
+    url(r'^posts/$', posts, name='posts'),
     url(r'^post/(?P<pid>\d*)/$', post, name='post'),
+    url(r'^subscribe/$', subscription, name='subscription'),
     url(r'^contact/$', contact, name='contact'),
     url(r'^new/$', new, name='new'),
     url(r'^blog/$', blog, name='blog'),

@@ -14,8 +14,8 @@ import os
 # for gmail or google apps
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'gvudayateja93@gmail.com'
-EMAIL_HOST_PASSWORD = 'itsmyturnnw'
+EMAIL_HOST_USER = 'karthikramaswamy92@gmail.com'
+EMAIL_HOST_PASSWORD = 'peeljobs'
 EMAIL_PORT = 587
 
 # EMAIL_HOST = 'smtp.sendgrid.net'
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'blog',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,9 +64,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'BlogPost.urls'
 
-LOGIN_REDIRECT_URL = '/home/'
+LOGIN_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = 'mspp.User'
+AUTH_USER_MODEL = 'blog.User'
 
 TEMPLATES = [
     {

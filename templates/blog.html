@@ -1,25 +1,148 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Blog Post</title>
-</head>
-<body>
-	<div id="blog_id">
-		<form id="blogid" action="" method="POST">
-		  {{ form.as_p }}
-		  <input type="submit" id="submit" value="Save">
-		</form>
-	</div>
-    <h1>Blogs</h1>
-	  {% for b in bloglist %}
-	<div class="blog_details">
-		<h4>Title: {{ b.title }}</h4>
-		<h4>Author: {{ b.author }}</h4>
-		<h4>Category: {{ b.category }}</h4>
-		<h4>Description: {{ b.description }}</h4>
-		<a><input type="button" class="update" value="Update"></a>
-		<a href="/blog/{{b.id}}/delete/"><input type="button" class="delete" value="Delete"></a>
-    </div>
-	  {% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+	<header class="intro-header" style="background-image: url('{% static 'img/home-bg.jpg' %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Blog Place</h1>
+                        <hr class="small">
+                        <span class="subheading">Place for New Blogs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+	<body>
+		<div class="text-center">
+			ADD NEW BLOG
+		</div>
+		<br>
+	    <div class="row">
+	    	<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+				<form id="blogid" action="" method="POST">
+					<div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>TITLE</label>
+                            <input type="text" class="form-control" placeholder="Title" id="title" name="title">
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>SUB-TITLE</label>
+                            <input type="email" class="form-control" placeholder="Subtitle" id="subtitle" name="subtitle">
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-6 floating-label-form-group controls">
+                            <label>AUTHOR</label>
+                            <select class="selectform">
+                            	<option value="">AUTHOR</option>
+                            	{% for a in authors %}
+                            	<option value="{{a.id}}">{{ a.firstname }}</option>
+                            	{% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-xs-6 floating-label-form-group controls">
+                            <label>CATEGORY</label>
+                            <input type="tel" class="form-control" placeholder="Category" id="category" name="category">
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>DESCRIPTION</label>
+                            <textarea rows="5" class="form-control" placeholder="Description" id="description" name="description"></textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="text-center">
+                    	<button type="submit" id="submit">Save</button>
+                    </div>
+                    <br>
+				</form>
+			</div>
+	    </div>
+	    <hr>
+	    <div>
+			<form method='GET' class="accountdetails_row">
+			    <div class="table_container_row row marl">
+			      <div class="col-md-12">
+			          <div class="panel panel-default">
+			            <div class="panel-heading-list text-center">
+			              LIST OF BLOGS
+			              <span class="pull-right total_count">Total Blogs {{count}} </span>
+			            </div>
+			            <div class="panel-content">
+			              <table class="table table-bordered table-striped table-condensed">
+			                  <thead>
+			                    <tr>
+			                      <th width="5%" style="text-align:center;">S.No</th>
+			                      <th width="70%" style="text-align:center;">TITLE</th>
+			                      <th width="15%" style="text-align:center;">AUTHOR</th>
+			                      <th width="10%" style="text-align:center;">ACTIONS</th>
+			                    </tr>
+			                  </thead>
+			                  <tbody>
+			                  {% for b in bloglist %}
+			                    <tr id="blog_details{{ac.id}}">
+			                      <th scope="row" style="text-align:center;">{{ forloop.counter }}</th>
+			                      <td style="text-align:center;"><a href="">{{ b.title }}</a></td>
+			                      <td style="text-align:center;">{{ b.author }}</td>
+			                      <td>
+			                        <div class="dropdown" style="text-align:center;">
+			                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
+			                          <span class="caret"></span></button>
+			                          <ul class="dropdown-menu">
+			                            <li style="text-align:center;"><a href="">VIEW</a></li>
+			                            <li style="text-align:center;"><a href="">EDIT</a></li>
+			                            <li class="delete_blog" style="text-align:center;"><a href="" id="remove_blog">REMOVE</a></li>
+			                          </ul>
+			                        </div>
+			                      </td>
+			                    </tr>
+			                    {% endfor %}
+			                  </tbody>
+			                </table>
+			            </div>
+			              {% ifequal bloglist|length 0 %}
+			              <h5 class="text-center">No Acccounts Data Found</h5>
+			              {% else %}
+			            <div class="pagination_row text-center row marl">
+			              <ul class="pagination">
+			                <li>
+			                  {% if bloglist.has_previous %}
+			                    <a href="?page=1"><<<</a>
+			                    <a href="?page={{ bloglist.previous_page_number }}&name={{request.POST.name}}&city={{request.POST.city}}&account_type={{request.POST.account_type}}&industry={{request.POST.industry}}"><<</a>
+			                  {% endif %}
+			                </li>
+			                <li>
+			                  {% for page in bloglist.paginator.page_range %}
+			                    <li class="{%if bloglist.number == page%}active{%endif%}"><a href="?page={{page}}&name={{request.POST.name}}&city={{request.POST.city}}&account_type={{request.POST.account_type}}&industry={{request.POST.industry}}">{{page}}</a></li>
+			                  {% endfor %}
+			                </li>
+			                <li>
+			                  {% if bloglist.has_next %}
+			                    <a href="?page={{ bloglist.next_page_number }}&name={{request.POST.name}}&city={{request.POST.city}}&account_type={{request.POST.account_type}}&industry={{request.POST.industry}}">>></a>
+			                    <a href="?page={{ bloglist.paginator.num_pages }}&name={{request.POST.name}}&city={{request.POST.city}}&account_type={{request.POST.account_type}}&industry={{request.POST.industry}}">>>></a>
+			                  {% endif %}
+			                </li>
+			              </ul>
+			            </div>
+			            {% endifequal %}
+			          </div>
+			        <br clear="all">
+			      </div>
+			    </div>
+			</form>
+		</div>
+    </body>
+
+	<script src="//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"></script>
+	<script>
+		CKEDITOR.replace('')
+	</script>
+
+{% endblock %}

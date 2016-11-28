@@ -34,10 +34,12 @@ class Category(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(max_length=255)
+    subtitle = models.CharField(max_length=255)
     author = models.ForeignKey(Author)
     category = models.ForeignKey(Category)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=1000)
     posted = models.DateField(default=timezone.now)
+    photo = models.ImageField("Photo", upload_to='images/blog/', default='', blank=True)
 
     def __str__(self):
         return self.title
@@ -60,3 +62,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class Subscribe(models.Model):
+    subscriber_name = models.CharField(max_length=64)
+    subscriber_email = models.EmailField()
+    subscribed_date = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return self.subscriber_name

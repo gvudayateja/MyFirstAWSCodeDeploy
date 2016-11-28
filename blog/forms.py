@@ -59,6 +59,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class BlogForm(forms.ModelForm):
+    description = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = Blog
@@ -115,3 +116,17 @@ class UserForm(forms.ModelForm):
         if pin != '1234':
             raise forms.ValidationError('Invalid Pin')
         return pin
+
+
+class SubscriberForm(forms.ModelForm):
+
+    class Meta:
+        model = Subscribe
+        fields = ('subscriber_name', 'subscriber_email')
+
+    def clean_subscriber_email(self):
+        email = self.cleaned_data['subscriber_email']
+        sub_email = Subscribe.objects.filter(subscriber_email__iexact=email).exists()
+        if sub_email:
+            raise forms.ValidationError('Email Already Subscribed, Please Enter Another Email Id')
+        return email

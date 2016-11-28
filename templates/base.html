@@ -10,10 +10,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Micro Blog</title>
+    <title>Swadesi Blog</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+          rel="stylesheet">
 
     <!-- Theme CSS -->
     <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
@@ -47,28 +53,42 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
                     <li>
-                        <a href="/home/">Home</a>
+                        <a href="/">Home</a>
                     </li>
                     <li>
                         <a href="/about/">About</a>
                     </li>
                     <li>
-                        <a href="/blog/">Sample Post</a>
+                        <a href="/posts/">Posts</a>
                     </li>
                     <li>
                         <a href="/contact/">Contact</a>
                     </li>
-                    <li style="display: hidden;">
-                        <a href="/new/">New</a>
-                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li>
+                            <a href="/blog/">Blog</a>
+                        </li>
+                        <li>
+                            <a href="/author/">Author</a>
+                        </li>
+                        <li>
+                            <a href="/category/">Category</a>
+                        </li>
+                        <li style="display: none;">
+                            <a href="/new/">New</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <!-- <h4 style="color:white; block:inline;">Welcome {{request.user.username}}</h4> -->
-                    </li>
-                    <li>
-                        <a href="/logout/">Log Out</a>
-                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li>
+                            <a href="/logout/">Log Out</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="/login/">Sign In</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -78,7 +98,19 @@
         <!-- breadcrumb starts here -->
         {% block content %}
         {% endblock %}
-
+        <div id="sub_form">
+            <form id="subscribe_form" method="POST" action="/subscribe/">{% csrf_token %}
+                <div class="subscribe" style="color: #50636d; text-align: center;">
+                    <h3 style="font-size:20px">Subscribe With us</h3>
+                    <label style="font-size:16px">Name</label>
+                        <input type="text" name="subscriber_name">
+                    <label style="font-size:16px">Email</label>
+                        <input type="email" name="subscriber_email">
+                    <button type="submit" class="btn-custom">Save</button>
+                </div>
+            </form>
+        </div>
+        <hr>
         <!-- breadcrumb ends here -->
 
     <!-- Footer -->
@@ -112,7 +144,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">Copyright &copy; MICROPYRAMID INFORMATICS PVT.LTD., 2016</p>
+                    <p class="copyright text-muted">Copyright &copy; SWADESI BLOG 2016</p>
                 </div>
             </div>
         </div>
@@ -120,6 +152,8 @@
 
     <!-- jQuery -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -130,7 +164,32 @@
 
     <!-- Theme JavaScript -->
     <script src="{% static 'js/clean-blog.min.js' %}"></script>
-
+    <script>
+        $(document).ready(function(){
+            $('#subscribe_form').submit(function(s){
+                s.preventDefault()
+                alert('Hjdfkwms');
+                $.ajax({
+                    data: $(this).serialize(),
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    success: function(data) {
+                        if(data.errors){
+                            $("#subscribe_form").show()
+                            $("#subscribe_form").append('<p>Please Enter Valid Data</p>')
+                        }
+                        else {
+                            $("#subscribe_form").hide()
+                            $("#sub_form").append('<p style="text-align:center;">Thank You For Subscribing to Swadesi Blog.</p>')
+                        }
+                    },
+                    error: function(data){
+                        alert('Error');
+                    },
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

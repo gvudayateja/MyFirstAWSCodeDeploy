@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('{% static 'img/all-posts.jpg' %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h2></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                {% for b in bloglist %}
+                <div class="post-preview">
+                    <a href="/post/{{b.id}}/">
+                        <h2 class="post-title">
+                            {{ b.title }}
+                        </h2>
+                        <h3 class="post-subtitle">
+                            {{b.subtitle}}
+                        </h3>
+                    </a>
+                    <p class="post-meta">Posted by <a href="#">{{ b.author }}</a> on {{ b.posted|date:"F d Y" }}</p>
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+{% endblock %}
