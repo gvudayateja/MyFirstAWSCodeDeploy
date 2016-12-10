@@ -17,11 +17,6 @@
     </header>
 
 	<body>
-		<div class="text-center">
-			ADD NEW BLOG
-		</div>
-		<br>
-	    <div class="row">
 	    	<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 				<form id="blogid" action="" method="POST">
 					<div class="row control-group">
@@ -139,10 +134,11 @@
 			</form>
 		</div>
     </body>
-
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+	<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 	<script src="//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"></script>
 	<script>
-		CKEDITOR.replace('')
+		CKEDITOR.replace('#description')
 	</script>
 
 {% endblock %}

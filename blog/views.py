@@ -73,9 +73,9 @@ def contact(request):
             mail = EmailMultiAlternatives(subject, message, from_email, to_list)
 
             if pic:
-                mail.attach(pic.name, pic.read(), 'image/jpeg')
+                mail.attach_file(pic.name, pic.read(), 'image/jpeg')
             if file:
-                mail.attach(file.name, file.read(), file.content_type)
+                mail.attach_file(file.name, file.read(), file.content_type)
             mail.send()
 
             messages.success(request, 'Thank You. We will Get Back')

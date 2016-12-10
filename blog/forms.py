@@ -1,5 +1,6 @@
 from django import forms
 from blog.models import *
+from ckeditor.fields import RichTextFormField
 
 
 class AuthorForm(forms.ModelForm):
@@ -59,7 +60,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class BlogForm(forms.ModelForm):
-    description = forms.CharField(widget=forms.Textarea)
+    content = RichTextFormField()
 
     class Meta:
         model = Blog
